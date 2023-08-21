@@ -44,4 +44,4 @@ Block *block_split(Block *block, size_t size);
 
 #endif
 
-/* vim: set expandtab sts=4 sw=4 ts=8 ft=c: */
+

@@ -1,6 +1,13 @@
+
 #include <stdio.h>
 #include <stdlib.h>
-/*
+
+#include "memory/counters.h" //i was to implement using block counters but i run out of time
+#include "memory/freelist.h" //i was to implement freeing mechanism but i run out of time
+
+#include <assert.h>
+#include <string.h>
+
 #define MEMORY_SIZE 1024 // Total size of memory in bytes
 
 // Structure to represent a memory block
@@ -77,10 +84,10 @@ void display_memory()
         curr_block = curr_block->next;
     }
 }
-*/
+
 int main()
 {
-    // initialize_memory_pool();
+    initialize_memory_pool();
 
     void *ptr1 = my_malloc(100);
     void *ptr2 = my_malloc(200);

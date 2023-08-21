@@ -1,5 +1,6 @@
 /* counters.h: Acounting */
 
+#ifndef COUNTERS_H
 #define COUNTERS_H
 
 #include <stdio.h>
@@ -38,4 +39,4 @@ void dump_counters();
 
 #endif
 
-/* vim: set expandtab sts=4 sw=4 ts=8 ft=c: */
+
