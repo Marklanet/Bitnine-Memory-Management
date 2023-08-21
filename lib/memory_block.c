@@ -1,7 +1,7 @@
 /* malloc_block.c: Block Structure */
 
-#include "malloc/block.h"
-#include "malloc/counters.h"
+#include "memory/block.h"
+#include "memory/counters.h"
 
 #include <stdlib.h>
 #include <string.h>
