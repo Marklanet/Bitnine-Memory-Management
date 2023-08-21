@@ -5,8 +5,8 @@
  * can be re-used).
  **/
 
-#include "malloc/counters.h"
-#include "malloc/freelist.h"
+#include "memory/counters.h"
+#include "memory/freelist.h"
 
 /* Global Variables */
 
@@ -20,7 +20,8 @@ Block FreeList = {-1, &FreeList, &FreeList};
  * @param   size    Amount of memory required.
  * @return  Pointer to existing block (otherwise NULL if none are available).
  **/
-Block * free_list_search_ff(size_t size) {
+Block *free_list_search_ff(size_t size)
+{
     // TODO: Implement first fit algorithm
     return NULL;
 }
@@ -31,7 +32,8 @@ Block * free_list_search_ff(size_t size) {
  * @param   size    Amount of memory required.
  * @return  Pointer to existing block (otherwise NULL if none are available).
  **/
-Block * free_list_search_bf(size_t size) {
+Block *free_list_search_bf(size_t size)
+{
     // TODO: Implement best fit algorithm
     return NULL;
 }
@@ -42,7 +44,8 @@ Block * free_list_search_bf(size_t size) {
  * @param   size    Amount of memory required.
  * @return  Pointer to existing block (otherwise NULL if none are available).
  **/
-Block * free_list_search_wf(size_t size) {
+Block *free_list_search_wf(size_t size)
+{
     // TODO: Implement wost fit algorithm
     return NULL;
 }
@@ -56,17 +59,19 @@ Block * free_list_search_wf(size_t size) {
  * @param   size    Amount of memory required.
  * @return  Pointer to existing block (otherwise NULL if none are available).
  **/
-Block * free_list_search(size_t size) {
-    Block * block = NULL;
-#if	defined FIT && FIT == 0
+Block *free_list_search(size_t size)
+{
+    Block *block = NULL;
+#if defined FIT && FIT == 0
     block = free_list_search_ff(size);
-#elif	defined FIT && FIT == 1
+#elif defined FIT && FIT == 1
     block = free_list_search_bf(size);
-#elif	defined FIT && FIT == 2
+#elif defined FIT && FIT == 2
     block = free_list_search_wf(size);
 #endif
 
-    if (block) {
+    if (block)
+    {
         Counters[REUSES]++;
     }
     return block;
@@ -83,7 +88,8 @@ Block * free_list_search(size_t size) {
  * list.
  * @param   block   Pointer to block to insert into free list.
  **/
-void	free_list_insert(Block *block) {
+void free_list_insert(Block *block)
+{
     // TODO: Implement free list insertion
 }
 
@@ -91,7 +97,8 @@ void	free_list_insert(Block *block) {
  * Return length of free list.
  * @return  Length of the free list.
  **/
-size_t  free_list_length() {
+size_t free_list_length()
+{
     // TODO: Implement free list length
     return 0;
 }

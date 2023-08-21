@@ -3,8 +3,6 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
-#include "memory/block.h"
-
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -43,5 +41,3 @@ bool block_merge(Block *dst, Block *src);
 Block *block_split(Block *block, size_t size);
 
 #endif
-
-

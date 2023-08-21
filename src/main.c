@@ -1,30 +1,26 @@
-
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "memory/counters.h" //i was to implement using block counters but i run out of time
-#include "memory/freelist.h" //i was to implement freeing mechanism but i run out of time
-
-#include <assert.h>
-#include <string.h>
-
-#define MEMORY_SIZE 1024 // Total size of memory in bytes
+#include <stddef.h>
+#include "main.h"
 
 // Structure to represent a memory block
+
 typedef struct Block
 {
     size_t size;
+    struct Block *prev;
     struct Block *next;
     int is_free;
 } Block;
 
+Block *freeList = NULL; // Global pointer to the start of the heap
 // The starting address of the memory pool
 void *memory_pool;
 
 // Function to initialize the memory pool
-void initialize_memory_pool()
+void initialize_memory_pool(size_t MEM_SIZE)
 {
-    memory_pool = malloc(MEMORY_SIZE);
+    memory_pool = malloc(MEM_SIZE);
     if (!memory_pool)
     {
         perror("Memory allocation failed");
@@ -32,7 +28,7 @@ void initialize_memory_pool()
     }
 
     Block *initial_block = (Block *)memory_pool;
-    initial_block->size = MEMORY_SIZE - sizeof(Block);
+    initial_block->size = MEM_SIZE - sizeof(Block);
     initial_block->next = NULL;
     initial_block->is_free = 1;
 }
@@ -62,15 +58,49 @@ void *my_malloc(size_t size)
     return NULL; // Out of memory
 }
 
+void mergeWithNext(Block *block)
+{
+    if (block->next && block->next->is_free)
+    {
+        block->size += block->next->size + sizeof(Block);
+        block->next = block->next->next;
+        if (block->next)
+        {
+            block->next->prev = block;
+        }
+    }
+}
+
+// Function to merge a free block with its previous block
+void mergeWithPrev(Block *block)
+{
+    if (block->prev && block->prev->is_free)
+    {
+        block->prev->size += block->size + sizeof(Block);
+        block->prev->next = block->next;
+        if (block->next)
+        {
+            block->next->prev = block->prev;
+        }
+        block = block->prev;
+    }
+}
+
+// Function to free memory
+
 // Function to free memory
 void my_free(void *ptr)
 {
     if (!ptr)
     {
-        return;
+        return; // Nothing to free
     }
-    Block *curr_block = (Block *)((char *)ptr - sizeof(Block));
-    curr_block->is_free = 1;
+
+    Block *block = (Block *)((char *)ptr - sizeof(Block));
+    block->is_free = 1;
+
+    mergeWithNext(block);
+    mergeWithPrev(block);
 }
 
 // Function to display memory status
@@ -83,28 +113,4 @@ void display_memory()
         printf("Block: %p, Size: %lu, Free: %d\n", curr_block, curr_block->size, curr_block->is_free);
         curr_block = curr_block->next;
     }
-}
-
-int main()
-{
-    initialize_memory_pool();
-
-    void *ptr1 = my_malloc(100);
-    void *ptr2 = my_malloc(200);
-    void *ptr3 = my_malloc(300);
-
-    display_memory();
-
-    my_free(ptr2);
-
-    display_memory();
-
-    my_free(ptr1);
-    my_free(ptr3);
-
-    display_memory();
-
-    free(memory_pool);
-
-    return 0;
 }

@@ -4,7 +4,7 @@ LDFLAGS=
 LIBRARIES=      lib/libmalloc-ff.so \
 		lib/libmalloc-bf.so \
 		lib/libmalloc-wf.so
-HEADERS=	$(wildcard include/malloc/*.h)
+HEADERS=	$(wildcard include/memory/*.h)
 SOURCES=	$(wildcard src/*.c)
 TESTS=		$(patsubst tests/%,bin/%,$(patsubst %.c,%,$(wildcard tests/*.c)))
 

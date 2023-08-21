@@ -12,5 +12,3 @@ void free_list_insert(Block *block);
 size_t free_list_length();
 
 #endif
-
-/* vim: set expandtab sts=4 sw=4 ts=8 ft=c: */
